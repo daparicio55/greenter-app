@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,8 @@ use Illuminate\Support\Facades\Route;
  Route::post('refresh',[AuthController::class,'refresh'])
  ->middleware('auth:api');
  Route::post('me',[AuthController::class,'me'])
+ ->middleware('auth:api');
+
+ //rutas para crear las compañias
+ Route::apiResource('companies',CompanyController::class)
  ->middleware('auth:api');
