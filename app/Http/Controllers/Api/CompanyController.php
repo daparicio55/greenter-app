@@ -61,9 +61,12 @@ class CompanyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Company $company)
+    public function show($company)
     {
-        //
+        $company = Company::where('ruc','=',$company)
+        ->where('user_id','=',auth()->user()->id)
+        ->firstOrFail();
+        return response()->json($company,200);
     }
 
     /**
