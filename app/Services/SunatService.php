@@ -37,13 +37,28 @@ class SunatService
             ->setTipoMoneda($data['tipoMoneda']) // Sol - Catalog. 02
             ->setCompany($this->getCompany($data['company']))
             ->setClient($this->getClient($data['client']))
+            // Montos de Operaciones gravadas, exoneradas, inafectas, exportación y gratuitas
             ->setMtoOperGravadas($data['mtoOperGravadas'])
+            ->setMtoOperExoneradas($data['mtoOperExoneradas'])
+            ->setMtoOperInafectas($data['mtoOperInafectas'])
+            ->setMtoOperExportacion($data['mtoOperExportacion'])
+            ->setMtoOperGratuitas($data['mtoOperGratuitas'])
+
+            // Impuestos
             ->setMtoIGV($data['mtoIGV'])
+            ->setMtoIGVGratuitas($data['mtoIGVGratitutas'])
             ->setTotalImpuestos($data['totalImpuestos'])
+
+            //totales
             ->setValorVenta($data['valorVenta'])
             ->setSubTotal($data['subTotal'])
+            ->setRedondeo($data['redondeo'])
             ->setMtoImpVenta($data['mtoImpVenta'])
+
+            //productos
             ->setDetails($this->getDetails($data['details']))
+
+            //Leyendas
             ->setLegends($this->getLegends($data['legends']));
         return $invoice;
     }
