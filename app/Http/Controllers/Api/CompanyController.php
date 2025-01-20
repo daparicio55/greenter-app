@@ -15,8 +15,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
-        return JWTAuth::user();
+        $companies = Company::where('user_id','=',auth()->user()->id)->get();
+        return response()->json($companies,200);
     }
 
     /**
@@ -72,16 +72,59 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $company)
     {
-        //
+        $company = Company::where('ruc','=',$company)
+        ->where('user_id','=',auth()->user()->id)
+        ->firstOrFail();
+
+
+        $data = $request->validate([
+            'razon_social' => 'required|string',
+            'ruc' => [
+                'nullable',
+                'string',
+                'regex:/^(10|20)\d{9}$/',
+                /* new UniqueRucRule() */
+            ],
+            'direccion' => 'required|string',
+            'logo' => 'nullable|image',
+            'sol_user' => 'required|string',
+            'sol_pass' => 'required|string',
+            'cert' => 'nullable|file|mimes:pem,txt',
+            'client_id' => 'nullable|string',
+            'client_secret' => 'nullable|string',
+            'production' => 'nullable|boolean',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('logos');
+        }
+
+        if ($request->hasFile('cert')) {
+            $data['cert_path'] = $request->file('cert')->store('certs');
+        }
+
+        $data['user_id'] = JWTAuth::user()->id;
+
+        $company->update($data);
+
+        return response()->json(
+            [
+                'message' => 'Compañia actualizada con exito',
+                'company' => $company
+            ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Company $company)
+    public function destroy($company)
     {
-        //
+        $company = Company::where('ruc','=',$company)
+        ->where('user_id','=',auth()->user()->id)
+        ->firstOrFail();
+        $company->delete();
+        return response()->json(['message' => 'Compañia eliminada con exito'], 200);
     }
 }
