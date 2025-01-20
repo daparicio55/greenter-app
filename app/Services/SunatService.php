@@ -28,13 +28,13 @@ class SunatService
     public function getInvoice($data){
         $invoice = (new Invoice())
             ->setUblVersion($data['ublVersion'] ?? '2.1')
-            ->setTipoOperacion($data['tipoOperacion'] ?? '0101') // Venta - Catalog. 51
-            ->setTipoDoc($data['tipoDoc']) // Factura - Catalog. 01 
-            ->setSerie($data['serie'])
-            ->setCorrelativo($data['correlativo'])
-            ->setFechaEmision(new DateTime($data['fechaEmision'])) // Zona horaria: Lima
+            ->setTipoOperacion($data['tipoOperacion'] ?? null) // Venta - Catalog. 51
+            ->setTipoDoc($data['tipoDoc']?? null) // Factura - Catalog. 01 
+            ->setSerie($data['serie']?? null)
+            ->setCorrelativo($data['correlativo']?? null)
+            ->setFechaEmision(new DateTime($data['fechaEmision'] ?? null)) // Zona horaria: Lima
             ->setFormaPago(new FormaPagoContado()) // FormaPago: Contado
-            ->setTipoMoneda($data['tipoMoneda']) // Sol - Catalog. 02
+            ->setTipoMoneda($data['tipoMoneda'] ?? null) // Sol - Catalog. 02
             ->setCompany($this->getCompany($data['company']))
             ->setClient($this->getClient($data['client']))
             // Montos de Operaciones gravadas, exoneradas, inafectas, exportación y gratuitas
@@ -65,30 +65,30 @@ class SunatService
     }
     public function getCompany($company){
         $company = (new Company())
-            ->setRuc($company['ruc'])
-            ->setRazonSocial($company['razonSocial'])
-            ->setNombreComercial($company['nombreComercial'])
+            ->setRuc($company['ruc'] ?? null)
+            ->setRazonSocial($company['razonSocial'] ?? null)
+            ->setNombreComercial($company['nombreComercial'] ?? null)
             ->setAddress($this->getAddres($company['address']));
         return $company;
     }
 
     public function getClient($client){
         $client = (new Client())
-            ->setTipoDoc($client['tipoDoc']) // RUC - Catalog. 06
-            ->setNumDoc($client['numDoc'])
-            ->setRznSocial($client['rznSocial']);
+            ->setTipoDoc($client['tipoDoc'] ?? null) // RUC - Catalog. 06
+            ->setNumDoc($client['numDoc'] ?? null)
+            ->setRznSocial($client['rznSocial'] ?? null);
         return $client;
     }
 
     public function getAddres($address){
         $address = (new Address())
-            ->setUbigueo($address['ubigueo'])
-            ->setDepartamento($address['departamento'])
-            ->setProvincia($address['provincia'])
-            ->setDistrito($address['distrito'])
-            ->setUrbanizacion($address['urbanizacion'])
-            ->setDireccion($address['direccion'])
-            ->setCodLocal($address['codLocal']); // Codigo de establecimiento asignado por SUNAT, 0000 por defecto.
+            ->setUbigueo($address['ubigueo'] ?? null)
+            ->setDepartamento($address['departamento'] ?? null)
+            ->setProvincia($address['provincia'] ?? null)
+            ->setDistrito($address['distrito'] ?? null)
+            ->setUrbanizacion($address['urbanizacion'] ?? null)
+            ->setDireccion($address['direccion'] ?? null)
+            ->setCodLocal($address['codLocal'] ?? null); // Codigo de establecimiento asignado por SUNAT, 0000 por defecto.
         return $address;
     }
 
@@ -99,20 +99,20 @@ class SunatService
         foreach ($details as $key => $detail) {
             # code...
             $green_details[] = (new SaleDetail())
-            ->setCodProducto($detail['codProducto']) // Codigo Producto
-            ->setUnidad($detail['unidad']) // Unidad - Catalog. 03
-            ->setCantidad($detail['cantidad'])
-            ->setMtoValorUnitario($detail['mtoValorUnitario'])
-            ->setDescripcion($detail['descripcion'])
-            ->setMtoBaseIgv($detail['mtoBaseIgv'])
-            ->setPorcentajeIgv($detail['porcentajeIgv']) // 18%
-            ->setIgv($detail['igv'])
+            ->setCodProducto($detail['codProducto'] ?? null) // Codigo Producto
+            ->setUnidad($detail['unidad'] ?? null) // Unidad - Catalog. 03
+            ->setCantidad($detail['cantidad'] ?? null)
+            ->setMtoValorUnitario($detail['mtoValorUnitario'] ?? null)
+            ->setDescripcion($detail['descripcion'] ?? null)
+            ->setMtoBaseIgv($detail['mtoBaseIgv'] ?? null)
+            ->setPorcentajeIgv($detail['porcentajeIgv'] ?? null) // 18%
+            ->setIgv($detail['igv'] ?? null)
             ->setFactorIcbper($detail['factorIcbper'] ?? null) // 0.2
             ->setIcbper($detail['icbper'] ?? null)
-            ->setTipAfeIgv($detail['tipAfeIgv']) // Gravado Op. Onerosa - Catalog. 07
-            ->setTotalImpuestos($detail['totalImpuestos']) // Suma de impuestos en el detalle
-            ->setMtoValorVenta($detail['mtoValorVenta'])
-            ->setMtoPrecioUnitario($detail['mtoPrecioUnitario']);
+            ->setTipAfeIgv($detail['tipAfeIgv'] ?? null) // Gravado Op. Onerosa - Catalog. 07
+            ->setTotalImpuestos($detail['totalImpuestos'] ?? null) // Suma de impuestos en el detalle
+            ->setMtoValorVenta($detail['mtoValorVenta'] ?? null)
+            ->setMtoPrecioUnitario($detail['mtoPrecioUnitario'] ?? null);
         }
 
         return $green_details;
@@ -124,8 +124,8 @@ class SunatService
         foreach ($legends as $key => $legend) {
             # code...
             $green_legends[] = (new Legend())
-            ->setCode($legend['code']) // Monto en letras - Catalog. 52
-            ->setValue($legend['value']);
+            ->setCode($legend['code'] ?? null) // Monto en letras - Catalog. 52
+            ->setValue($legend['value'] ?? null);
         }
 
         return $green_legends;

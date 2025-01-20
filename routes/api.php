@@ -27,3 +27,6 @@ Route::apiResource('companies',CompanyController::class)
 
 Route::post('invoices/send',[InvoiceController::class,'send'])
  ->middleware('auth:api');
+ 
+Route::post('invoices/xml',[InvoiceController::class,'xml'])
+->middleware('auth:api');
