@@ -24,6 +24,8 @@ class InvoiceController extends Controller
 
         $this->setLegends($data);
 
+        //return $data;
+
         $sunat = new SunatService();
                
         $see = $sunat->getSee($company);
@@ -52,7 +54,9 @@ class InvoiceController extends Controller
 
         $data['mtoIGV'] = $details->whereIn('tipAfeIgv',[10,20,30,40])->sum('igv');
         $data['mtoIGVGratitutas'] = $details->whereNotIn('tipAfeIgv',[10,20,30,40])->sum('igv');
-        $data['totalImpuestos'] = $data['mtoIGV'];
+        $data['icbper'] = $details->sum('icbper');
+        $data['totalImpuestos'] = $data['mtoIGV'] + $data['icbper'];
+        
         $data['valorVenta'] = $details->whereIn('tipAfeIgv',[10,20,30,40])->sum('mtoValorVenta');
         $data['subTotal'] = $data['valorVenta'] + $data['mtoIGV'];
 
