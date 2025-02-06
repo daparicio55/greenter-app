@@ -30,3 +30,6 @@ Route::post('invoices/send',[InvoiceController::class,'send'])
  
 Route::post('invoices/xml',[InvoiceController::class,'xml'])
 ->middleware('auth:api');
+
+Route::post('invoices/pdf',[InvoiceController::class,'pdf'])
+->middleware('auth:api');
