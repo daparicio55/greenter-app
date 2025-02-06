@@ -27,10 +27,9 @@
                                 <x-admin.table-th>
                                     Produccion
                                 </x-admin.table-th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b dark:border-gray-700">
+                                <x-admin.table-th>
                                     Acciones
-                                </th>
+                                </x-admin.table-th>
                             </tr>
                         </x-slot>
 
@@ -51,31 +50,23 @@
                                         <x-admin.badge :color="$cliente->companies[0]->produccion ? 'green' : 'red'">
                                             {{ $cliente->companies[0]->produccion ? 'Producción' : 'Prueba' }}    
                                         </x-admin.badge>
+
+                                    </x-admin.table-td>
+                                    <x-admin.table-td class="gap-2">
+
+                                        <x-admin.link-edit route="{{ route('dashboard.clientes.edit',$cliente->id) }}" >
+                                            Editar
+                                        </x-admin.link-edit>
+                                        <x-admin.modal-delete route="{{ route('dashboard.clientes.destroy',$cliente->id) }}">
+                                            <p class="text-sm text-gray-500">
+                                                Esta seguro que desea eliminar el cliente {{ $cliente->name }}?
+                                            </p>
+                                        </x-admin.modal-delete>
+
                                     </x-admin.table-td>
                                 </x-admin.table-tr>
 
                             @endforeach
-                            <x-admin.table-tr>
-                                <td class="">Juan Pérez</td>
-                                <td class="px-6 py-4 text-gray-900 dark:text-gray-200">juan@example.com</td>
-                                <td class="px-6 py-4 text-gray-900 dark:text-gray-200">Usuario</td>
-                                <td class="px-6 py-4">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                                        Activo
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 flex gap-2">
-                                    <button
-                                        class="px-3 py-1 text-sm font-medium text-white bg-gray-700 rounded-md hover:bg-gray-800 focus:ring-2 focus:ring-gray-500">
-                                        Editar
-                                    </button>
-                                    <button
-                                        class="px-3 py-1 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-900 focus:ring-2 focus:ring-gray-600">
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </x-admin.table-tr>
                             
                         </x-slot>
 

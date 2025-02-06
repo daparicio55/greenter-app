@@ -24,7 +24,10 @@ class ClienteController extends Controller
     {
         return view('dashboard.clientes.create');
     }
-
+    public function edit($id){
+        $cliente = User::findOrFail($id);
+        return view('dashboard.clientes.edit',compact('cliente'));
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -59,10 +62,15 @@ class ClienteController extends Controller
 
             Company::create($data);
         } catch (\Throwable $th) {
-            return $th->getMessage();
             return Redirect::route('dashboard.clientes.create')->with('error', 'Error al crear el cliente');
         }
 
+        return Redirect::route('dashboard.clientes.index');
+    }
+    public function destroy($id)
+    {
+        $cliente = User::findOrFail($id);
+        $cliente->delete();
         return Redirect::route('dashboard.clientes.index');
     }
 }
