@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Datos de Cliente
+            Datos de Cliente (Registrar)
         </h2>
         <x-admin.link-secondary route="dashboard.clientes.index" class="mt-2">
             Regresar

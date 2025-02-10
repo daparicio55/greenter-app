@@ -10,6 +10,12 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <p>Aca se mostrar avisos del sistema</p>
+                    {{ Auth::user()->password }}
+                    <br>
+                    {{ Auth::user()->getAttributes()['password'] }}
+                    <br>
+                    {{ Hash::make('12345678') }}
+
                 </div>
             </div>
         </div>

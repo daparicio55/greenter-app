@@ -28,6 +28,11 @@ class ClienteController extends Controller
         $cliente = User::findOrFail($id);
         return view('dashboard.clientes.edit',compact('cliente'));
     }
+    
+    public function update(Request $request,$id){
+        return $request->all();
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

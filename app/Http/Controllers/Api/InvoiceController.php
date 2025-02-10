@@ -76,6 +76,7 @@ class InvoiceController extends Controller
 
     public function send(Request $request)
     {
+
         $request->validate([
             'company' => 'required|array',
             'company.address'=> 'required|array',
@@ -84,12 +85,16 @@ class InvoiceController extends Controller
             'details.*' => 'required|array',
         ]);
 
+        
+
         $data = $request->all();
 
         $company = Company::where('user_id', auth()->user()->id)
         ->where('ruc', $data['company']['ruc'])
         ->first();
-                
+    
+        //return $company;
+
         $this->setTotales($data);
 
         $this->setLegends($data);

@@ -30,6 +30,14 @@ class UserSeeder extends Seeder
         ->assignRole($role1);
         $permision3 = Permission::create(['name' => 'dashboard.clientes.store'])
         ->assignRole($role1);
+        $permision4 = Permission::create(['name' => 'dashboard.clientes.edit'])
+        ->assignRole($role1);
+        $permision5 = Permission::create(['name' => 'dashboard.clientes.show'])
+        ->assignRole($role1);
+        $permision6 = Permission::create(['name' => 'dashboard.clientes.update'])
+        ->assignRole($role1);
+        $permision7 = Permission::create(['name' => 'dashboard.clientes.destroy'])
+        ->assignRole($role1);
 
         $administrador->assignRole($role1);
 
